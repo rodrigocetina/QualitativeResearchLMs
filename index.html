@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NotebookLMs for Qualitative Research — UPF-BSM</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: #1a1a1a;
+      background: #fff;
+    }
+
+    /* ── Top bar (logo strip) ── */
+    .topbar {
+      background: #fff;
+      border-bottom: 1px solid #e5e5e5;
+      padding: 0.9rem 2.5rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .topbar img {
+      height: 48px;
+      display: block;
+    }
+
+    /* ── Hero banner ── */
+    .hero {
+      background: #C41230;
+      color: #fff;
+      padding: 3rem 2.5rem 2.5rem;
+    }
+
+    .hero-inner {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.6rem;
+    }
+
+    .hero .author {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.75);
+    }
+
+    /* ── Main content ── */
+    main {
+      max-width: 860px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem 4rem;
+    }
+
+    /* ── Intro section ── */
+    .intro {
+      border-left: 4px solid #C41230;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2.75rem;
+      background: #fafafa;
+    }
+
+    .intro p {
+      margin-bottom: 0.85rem;
+      color: #333;
+    }
+    .intro p:last-child { margin-bottom: 0; }
+
+    .intro ol {
+      margin: 0.5rem 0 0.85rem 1.35rem;
+      color: #333;
+    }
+
+    .intro ol li {
+      margin-bottom: 0.45rem;
+    }
+
+    a {
+      color: #C41230;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(196,18,48,0.3);
+    }
+    a:hover {
+      border-bottom-color: #C41230;
+    }
+
+    /* ── Notebook cards ── */
+    .notebook {
+      border: 1px solid #e5e5e5;
+      margin-bottom: 1.75rem;
+    }
+
+    .notebook-header {
+      background: #C41230;
+      color: #fff;
+      padding: 0.9rem 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .notebook-header .num {
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      width: 1.9rem;
+      height: 1.9rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 1.5px solid rgba(255,255,255,0.5);
+    }
+
+    .notebook-header h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.3;
+      letter-spacing: 0.01em;
+    }
+
+    .notebook-body {
+      padding: 1.25rem 1.4rem 1.5rem;
+      background: #fff;
+    }
+
+    .notebook-body .description {
+      color: #555;
+      margin-bottom: 1.2rem;
+      font-size: 0.96rem;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid #efefef;
+    }
+
+    .notebook-body h3 {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #C41230;
+      margin-bottom: 0.8rem;
+    }
+
+    .steps {
+      list-style: none;
+      counter-reset: steps;
+      padding: 0;
+    }
+
+    .steps li {
+      counter-increment: steps;
+      display: flex;
+      gap: 0.9rem;
+      margin-bottom: 0.7rem;
+      font-size: 0.96rem;
+      color: #333;
+    }
+
+    .steps li::before {
+      content: counter(steps);
+      background: #C41230;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.75rem;
+      min-width: 1.55rem;
+      height: 1.55rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.18rem;
+    }
+
+    .warning {
+      color: #C41230;
+      font-weight: 700;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 3px solid #C41230;
+      text-align: center;
+      color: #888;
+      font-size: 0.82rem;
+      padding: 1.5rem 1rem;
+      margin-top: 1rem;
+    }
+
+    footer a {
+      color: #888;
+      border-bottom-color: rgba(136,136,136,0.3);
+    }
+    footer a:hover { color: #C41230; border-bottom-color: #C41230; }
+
+    @media (max-width: 600px) {
+      .hero h1 { font-size: 1.4rem; }
+      .topbar { padding: 0.75rem 1.25rem; }
+      .hero { padding: 2rem 1.25rem; }
+      main { padding: 0 1rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Logo bar -->
+<div class="topbar">
+  <img src="logoBSM-185-RGB__2__2[82211637].png" alt="UPF Barcelona School of Management" />
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Instructions for Setting Up<br>NotebookLMs for Qualitative Research</h1>
+    <p class="author">Rodrigo Cetina-Presuel &mdash; UPF Barcelona School of Management</p>
+  </div>
+</div>
+
+<main>
+
+  <!-- Intro -->
+  <section class="intro">
+    <p>Below you will find simple instructions to &ldquo;clone&rdquo; my NotebookLMs for your personal use. Once you have set them up you will be able to:</p>
+    <ol type="a">
+      <li>Use the NotebookLMs to explore resources about how to conduct qualitative research and to plan and chart things such as coherence matrixes, rubrics for analyzing (public) documents, templates for interviews, consent forms, charts for testing the coherence and pertinence of your coding sheets, themes, etc. Play around, you&rsquo;ll see!</li>
+      <li>For actual research, what I recommend is that you load the NotebookLM(s) to Google Gemini or Claude and work with your documents or transcripts there. You may also upload your own charts, rubrics, matrixes, etc., and have the GPTs code, extract passages from the transcripts and match them to your themes or subthemes, etc. Consider this experimental &mdash; this is not Atlas.TI or Dedoose, but maybe we are on to something!</li>
+      <li>This is released open source; license (GNU AGPL 3.0) is on the readme file. Please, just kindly quote me if you use it.</li>
+      <li>Need any help or want to discuss how you are using this? Reach out at <a href="mailto:rodrigo.cetina@bsm.upf.edu">rodrigo.cetina@bsm.upf.edu</a>.</li>
+      <li>Always verify your work: AI can make mistakes, hallucinate, and results should always be approached with a critical eye.</li>
+    </ol>
+  </section>
+
+  <!-- Notebook 1 -->
+  <article class="notebook">
+    <div class="notebook-header">
+      <div class="num">1</div>
+      <h2>Qualitative Methods for the Study of Public Policy</h2>
+    </div>
+    <div class="notebook-body">
+      <p class="description">
+        This repository contains general resources on qualitative methodologies for public policy. It covers everything from an introduction to the field through sampling strategies, types of methodologies, and specifics of each approach, as well as information on coding and more. It includes five books plus additional resources.
+      </p>
+      <h3>Instructions</h3>
+      <ol class="steps">
+        <li>Follow the <a href="https://www.dropbox.com/scl/fo/vovjrluhcpo1ow5diwngo/ABLpC7OabtE7ksnP8rOyQf8?rlkey=tvxaozks4monif47gqooyldkp&st=9rlki0g5&dl=0" target="_blank" rel="noopener">Dropbox link</a> to download all the files. You can also <a href="https://www.dropbox.com/scl/fo/vovjrluhcpo1ow5diwngo/ABLpC7OabtE7ksnP8rOyQf8?rlkey=tvxaozks4monif47gqooyldkp&st=9rlki0g5&dl=0" target="_blank" rel="noopener">download them here.</a></li>
+        <li>Open NotebookLM &mdash; you can <a href="https://notebooklm.google/" target="_blank" rel="noopener">click here to access it</a> &mdash; and sign in.</li>
+        <li>In NotebookLM, create a new Notebook named <strong>QUALITATIVE METHODOLOGIES AND PUBLIC POLICY</strong>. <span class="warning">WARNING: DO NOT</span> mix these files with those from any other folder.</li>
+        <li>Add all the required files (PDFs) to the NotebookLM. Make sure they are all correctly loaded.</li>
+        <li>Start using NotebookLM thoughtfully and responsibly.</li>
+      </ol>
+    </div>
+  </article>
+
+  <!-- Notebook 2 -->
+  <article class="notebook">
+    <div class="notebook-header">
+      <div class="num">2</div>
+      <h2>Qualitative Methods: Public Policy Document Analysis</h2>
+    </div>
+    <div class="notebook-body">
+      <p class="description">
+        A resource repository for designing and carrying out qualitative documentary studies, including theory-focused resources and practical advice, as well as case studies with valuable examples of document analysis.
+      </p>
+      <h3>Instructions</h3>
+      <ol class="steps">
+        <li>Follow the <a href="https://www.dropbox.com/scl/fo/8fg3vds7x0ox0emoz8q56/AGVnt6mb-eyCGG0JBZUKfMg?rlkey=7wrn0uxh4wpc2mcitw039r0l2&st=xcktxka1&dl=0" target="_blank" rel="noopener">Dropbox link</a> to download all the required files (PDFs). You can also <a href="https://www.dropbox.com/scl/fo/8fg3vds7x0ox0emoz8q56/AGVnt6mb-eyCGG0JBZUKfMg?rlkey=7wrn0uxh4wpc2mcitw039r0l2&st=xcktxka1&dl=0" target="_blank" rel="noopener">download them here.</a></li>
+        <li>Open NotebookLM &mdash; you can <a href="https://notebooklm.google/" target="_blank" rel="noopener">click here to access it</a> &mdash; and sign in.</li>
+        <li>In NotebookLM, create a new Notebook named <strong>DOCUMENT ANALYSIS</strong>. <span class="warning">WARNING: DO NOT</span> mix these files with those from any other folder.</li>
+        <li>Add all the required files (PDFs) to the NotebookLM. Make sure they are all correctly loaded.</li>
+        <li>Start using NotebookLM thoughtfully and responsibly.</li>
+      </ol>
+    </div>
+  </article>
+
+  <!-- Notebook 3 -->
+  <article class="notebook">
+    <div class="notebook-header">
+      <div class="num">3</div>
+      <h2>Qualitative Methods: Interviews for Public Policy Research</h2>
+    </div>
+    <div class="notebook-body">
+      <p class="description">
+        A resource repository for designing and conducting qualitative interviews, including theory-focused resources and practical advice, as well as case studies with valuable examples of qualitative interviewing.
+      </p>
+      <h3>Instructions</h3>
+      <ol class="steps">
+        <li>Follow the <a href="https://www.dropbox.com/scl/fo/9un9s1t7q9za0ozj1mrmq/AG7a2Max323KAkFA0voaQJc?rlkey=bowdnphjigrufesd4i5p73ndd&st=4jaqrvn5&dl=0" target="_blank" rel="noopener">Dropbox link</a> to download all the required files (PDFs). You can also <a href="https://www.dropbox.com/scl/fo/9un9s1t7q9za0ozj1mrmq/AG7a2Max323KAkFA0voaQJc?rlkey=bowdnphjigrufesd4i5p73ndd&st=4jaqrvn5&dl=0" target="_blank" rel="noopener">download them here.</a></li>
+        <li>Open NotebookLM &mdash; you can <a href="https://notebooklm.google/" target="_blank" rel="noopener">click here to access it</a> &mdash; and sign in.</li>
+        <li>In NotebookLM, create a new Notebook named <strong>QUALITATIVE INTERVIEWS</strong>. <span class="warning">WARNING: DO NOT</span> mix these files with those from any other folder.</li>
+        <li>Add all the required files (PDFs) to the NotebookLM. Make sure they are all correctly loaded.</li>
+        <li>Start using NotebookLM thoughtfully and responsibly.</li>
+      </ol>
+    </div>
+  </article>
+
+  <!-- Notebook 4 -->
+  <article class="notebook">
+    <div class="notebook-header">
+      <div class="num">4</div>
+      <h2>Qualitative Methods: Coding and Analysis for Public Policy Research</h2>
+    </div>
+    <div class="notebook-body">
+      <p class="description">
+        A repository of documents covering theoretical and practical knowledge on how to code qualitative data for subsequent analysis. Includes guidance on controlling the quality of information and the overall study.
+      </p>
+      <h3>Instructions</h3>
+      <ol class="steps">
+        <li>Follow the <a href="https://www.dropbox.com/scl/fo/joda3nuqlx00829s85lnh/ADa-bA_OPb9a_cx3GU_h-Pk?rlkey=u5dbi8wafhywajv9x9dct03f0&st=tnhswyma&dl=0" target="_blank" rel="noopener">Dropbox link</a> to download all the required files (PDFs). You can also <a href="https://www.dropbox.com/scl/fo/joda3nuqlx00829s85lnh/ADa-bA_OPb9a_cx3GU_h-Pk?rlkey=u5dbi8wafhywajv9x9dct03f0&st=tnhswyma&dl=0" target="_blank" rel="noopener">download them here.</a></li>
+        <li>Open NotebookLM &mdash; you can <a href="https://notebooklm.google/" target="_blank" rel="noopener">click here to access it</a> &mdash; and sign in.</li>
+        <li>In NotebookLM, create a new Notebook named <strong>CODING AND ANALYSIS</strong>. <span class="warning">WARNING: DO NOT</span> mix these files with those from any other folder.</li>
+        <li>Add all the required files (PDFs) to the NotebookLM. Make sure they are all correctly loaded.</li>
+        <li>Start using NotebookLM thoughtfully and responsibly.</li>
+      </ol>
+    </div>
+  </article>
+
+</main>
+
+<footer>
+  &copy; Rodrigo Cetina-Presuel, UPF Barcelona School of Management &mdash; Released under <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">GNU AGPL 3.0</a>
+</footer>
+
+</body>
+</html>
